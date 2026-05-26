@@ -48,7 +48,7 @@ def test_daily_max__negative_integers():
 
 
 def test_daily_max_string():
-    """Test for TypeError whne parsing strings."""
+    """Test for TypeError when parsing strings."""
 
     with pytest.raises(TypeError):
         error_expected = daily_max(["Hello", "there"])  # noqa: F841
@@ -75,6 +75,7 @@ def test_daily_max_empty_array():
 
 
 def test_daily_max_nan_propagation():
+    """Checks that daily max does not return NaN."""
     data = np.array([[1, np.nan], [3, 4]])
     result = daily_max(data)
     assert np.isnan(result[1])  # documents current behavior
