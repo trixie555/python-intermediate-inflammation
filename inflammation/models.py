@@ -18,7 +18,7 @@ def load_csv(filename):
     return np.loadtxt(fname=filename, delimiter=',')
 
 
-def daily_mean(data):
+def daily_mean(data:np.array):
     """Calculates the mean of axis 0 of a data file.
 
     :param data: csv file of shape (m,n) with m = , n = 
