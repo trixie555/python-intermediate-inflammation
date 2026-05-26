@@ -63,3 +63,5 @@ def test_daily_max_string():
     with pytest.raises(TypeError):
         error_expected = daily_max(['Hello','there'])
 
+
+           
