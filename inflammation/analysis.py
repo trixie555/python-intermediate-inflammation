@@ -21,15 +21,26 @@ class CSVDataSource:
         data = map(models.load_csv, data_file_paths)
 
         return list(data)
+    
+class JSONVDataSource:
+    def __init__(self, data_dir):
+        self.data_dir = data_dir
+        
+    def load_inflammation_data(self):
+        data_file_paths = glob.glob(os.path.join(self.data_dir, 'inflammation*.json'))
+        if len(data_file_paths) == 0:
+            raise ValueError(f"No inflammation data json files found in path {self.data_dir}")
+        data = map(models.load_json, data_file_paths)
 
-def analyse_data(data_dir):
+        return list(data)
+
+def analyse_data(data_source):
     """Calculates the standard deviation by day between datasets.
 
     Gets all the inflammation data from CSV files within a directory,
     works out the mean inflammation value for each day across all datasets,
     then plots the graphs of standard deviation of these means."""
 
-    data_source = CSVDataSource(data_dir)
     data = data_source.load_inflammation_data()
 
     means_by_day = map(models.daily_mean, data)

@@ -16,7 +16,7 @@ def main(args):
     in_files = args.infiles
     if not isinstance(in_files, list):
         in_files = [args.infiles]
-
+    
     for filename in in_files:
         inflammation_data = models.load_csv(filename)
 
@@ -27,9 +27,17 @@ def main(args):
         }
 
         views.visualize(view_data)
+    
     data_dir = os.path.dirname(in_files[0])
-    data_source = analysis.CSVDataSource(data_dir=data_dir)
+    
+    _, extension = os.path.splitext(in_files[0])
+    if extension == '.csv':
+        data_source = analysis.CSVDataSource(data_dir=data_dir)
+    elif extension == '.json':
+        data_source = analysis.JSONDataSource(data_dir=data_dir)
+    
     data = data_source.load_inflammation_data()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

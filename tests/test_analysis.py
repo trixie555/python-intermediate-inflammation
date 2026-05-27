@@ -2,11 +2,12 @@ from inflammation.analysis import analyse_data
 
 import os
 import numpy.testing as npt
-
+from inflammation.analysis import CSVDataSource
 
 def test_analyse_data():
     path = os.path.join(os.getcwd(), "data")
-    result = analyse_data(path)
+    data_source = CSVDataSource(path)
+    result = analyse_data(data_source)
 
     expected_result = [
         0.0,
