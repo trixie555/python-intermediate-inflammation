@@ -9,6 +9,23 @@ and each column represents a single day across all patients.
 
 import numpy as np
 
+class Patient:
+    def __init__(self, name, weight, height): # Constructor; self means it passes a variable to itself
+        self.name = name 
+        self.weight = weight
+        self.height = height
+
+    def get_body_mass_index(self):
+        """compute body mass index: weight_in_kg/height_in_meters**2
+        """
+        return self.weight/self.height**2
+
+class Circle:
+    def __init__(self, radius): # Constructor; self means it passes a variable to itself
+        self.radius = radius 
+
+# rosa = Circle(radius=4)
+# rosa.radius
 
 def load_csv(filename):  
     """Load a Numpy array from a CSV
