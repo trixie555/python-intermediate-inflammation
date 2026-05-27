@@ -6,7 +6,7 @@ import os
 import numpy as np
 import argparse
 
-from inflammation import models, views
+from inflammation import models
 
 
 class CSVDataSource:
@@ -34,25 +34,26 @@ class JSONVDataSource:
 
         return list(data)
 
-def analyse_data(data_source):
-    """Calculates the standard deviation by day between datasets.
+def compute_standard_deviation_by_day(data):
+    """Calculates the standard deviation by day between datasets."""
+    
+    means_by_day = map(models.daily_mean, data)
+    means_by_day_matrix = np.stack(list(means_by_day))
+    
+    daily_standard_deviation = np.std(means_by_day_matrix, axis=0)
 
-    Gets all the inflammation data from CSV files within a directory,
-    works out the mean inflammation value for each day across all datasets,
-    then plots the graphs of standard deviation of these means."""
+    return daily_standard_deviation
+
+
+def analyse_data(data_source):
+    """Loads data and returns daily standard deviation by calling fct to calculate it."""
 
     data = data_source.load_inflammation_data()
 
-    means_by_day = map(models.daily_mean, data)
-    means_by_day_matrix = np.stack(list(means_by_day))
-
-    daily_standard_deviation = np.std(means_by_day_matrix, axis=0)
-
-    graph_data = {'standard_deviation by day': daily_standard_deviation}
-
-    views.visualize(graph_data)
+    daily_standard_deviation = compute_standard_deviation_by_day(data=data)
 
     return daily_standard_deviation
+
 
 if __name__ == '__main__':
     # Initialize the parser
@@ -70,5 +71,8 @@ if __name__ == '__main__':
     # Parse the arguments from the command line
     args = parser.parse_args()
     
+
+
     # Run the function using the provided argument
-    analyse_data(args.data_dir)
+    datasource = CSVDataSource(args.data_dir)
+    analyse_data(datasource)
