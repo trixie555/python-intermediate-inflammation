@@ -60,13 +60,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="Calculate standard deviation by day between datasets."
     )
-    
+
     # Add the data_dir argument
     parser.add_argument(
         'data_dir', 
         type=str, 
         help="Path to the directory containing the inflammation CSV files."
     )
+
     
     # Parse the arguments from the command line
     args = parser.parse_args()
